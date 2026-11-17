@@ -1,105 +1,147 @@
-# Kick Quality Control — Chrome eklentisi (v0.2.0)
+# Kick Quality Control
 
-Kick'te canlı yayının çözünürlüğünü **menü açmadan**, Kick'in kullandığı **Amazon IVS Player** üzerinden kontrol etmeyi dener. Chrome araç çubuğundaki simgesine tıklayarak aç/kapat ve kalite ayarı yapabilirsin.
+Kick yayınlarında kaliteyi her seferinde oynatıcı menüsünden değiştirmek istemediğim için kendi kullanımım amacıyla geliştirdiğim bir Chrome eklentisi. Yayının sunduğu en yüksek çözünürlüğü seçebiliyor, belirli bir çözünürlüğü tercih edebiliyor veya kalite yönetimini tamamen Kick'in otomatik moduna bırakabiliyorum.
 
-> **Deneysel:** Kick'in yüklediğin JS paketindeki iç Turbopack modülü (`159838`, `f` dışa aktarımı) temel alındı. Bu dahili bağlantı Chrome'da gerçek Kick sayfasında doğrulanmış değildir ve site güncellenince değişebilir.
+Eklenti, kalite menüsünü açıp seçeneklere tıklamıyor. Kick'in kullandığı **Amazon IVS Player** ile uygulamanın mevcut kalite kontrol işlevi üzerinden iletişim kuruyor.
+
+## Ekran görüntüleri
+
+<p align="center">
+  <img src="docs/screenshots/control-panel.png" alt="Kick Quality Control ayar paneli: 1080p60 kalitesi, kapalı Auto modu ve aktif bağlantı" width="315">
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/quality-options.png" alt="Kick Quality Control çözünürlük seçenekleri: En yüksek, Auto, 1080p, 720p, 480p, 360p ve 160p" width="315">
+</p>
+
+<p align="center"><sub>Solda oynatıcı durumu ve kontroller; sağda kalite seçimi.</sub></p>
+
+## Özellikler
+
+- **En yüksek kaliteyi seçme:** Yayında sunulan en yüksek çözünürlüğü otomatik olarak tercih eder.
+- **Sabit çözünürlük:** 1080p, 720p, 480p, 360p veya 160p seçilebilir.
+- **Auto modu:** Kalite seçimi istenirse yeniden Kick'e bırakılabilir.
+- **Aç/kapat kontrolü:** Eklenti simgesine tıklayarak kalite yönetimi devre dışı bırakılabilir. Kapatıldığında oynatıcıyı bir kez Auto moduna döndürmeyi dener.
+- **Canlı durum bilgisi:** Aktif kaliteyi, Auto modunun açık olup olmadığını ve yayının sunduğu çözünürlükleri gösterir.
+- **Şimdi uygula:** Sekmeyi yenilemeden seçilen tercihin yeniden uygulanmasını ister.
+- **Kalıcı tercihler:** Ayarlar `chrome.storage.local` içinde tutulur ve Kick sekmeleri arasında paylaşılır.
 
 ## Kurulum
 
-1. ZIP dosyasını bir klasöre çıkar.
-2. Chrome adres çubuğunda `chrome://extensions` sayfasını aç.
-3. **Geliştirici modu**nu aç.
-4. **Paketlenmemiş öğe yükle** düğmesine bas ve `kick-max-quality` klasörünü seç.
-5. Kick sekmesini **yenile**. Eklentiyi araç çubuğuna sabitle ve simgesine tıkla.
+Bu proje **Manifest V3** kullanan, elle yüklenen bir Chrome eklentisidir. Chrome Web Store'da yayımlanmıyor.
 
-Eski sürümü kullanıyorsan onu kaldır veya devre dışı bırak: iki sürümün aynı anda kaliteyi değiştirmesi çakışabilir.
+1. Depoyu ZIP olarak indirip çıkar veya bilgisayarına klonla.
+2. Chrome'da `chrome://extensions` adresini aç.
+3. Sağ üstten **Geliştirici modu** seçeneğini etkinleştir.
+4. **Paketlenmemiş öğe yükle** seçeneğine tıkla.
+5. `manifest.json` dosyasının bulunduğu proje klasörünü seç.
+6. Kick'te bir yayın aç veya açık olan Kick sekmesini yenile.
 
-## Kullanım
+Eklentiye sık erişmek için Chrome araç çubuğuna sabitleyebilirsin. Önceki sürüm yüklüyse iki ayrı kalite kontrolünün çakışmaması için eskisini kapat.
 
-- **Otomatik kalite kontrolü: Açık:** Eklenti tercihini oynatıcı hazır olduğunda ve kanal değiştiğinde uygulamayı dener.
-- **Kapalı:** Eklenti kaliteyi zorlamaz. Açık durumdan kapatıldığında Auto moduna bir kez geri döner, sonra kontrolü Kick'e bırakır.
-- **En yüksek mevcut kalite:** Yayının sunduğu en yüksek çözünürlüğü seçer (örneğin 1080p60).
-- **Auto (Kick karar versin):** Amazon IVS otomatik bitrate/kalite seçimini etkinleştirir.
-- **1080p / 720p / 480p / 360p / 160p:** İstenen yüksekliği hedefler. Kaynakta yoksa en yakın **daha düşük** mevcut çözünürlüğe döner. Hiç daha düşük yoksa mevcut en düşük çözünürlüğü seçer.
-- **Şimdi uygula:** Etkin sekmede seçimi yeniden zorlamayı dener.
-- **Aktif Kick sekmesi:** Gerçekte seçili IVS kalitesini, Auto modunun açık olup olmadığını ve akışın sunduğu kalite seçeneklerini gösterir.
+## Nasıl kullanılır?
 
-Tercihler `chrome.storage.local` içinde tutulur ve tüm Kick sekmelerine uygulanır. Eklenti başka bir siteye erişmez ve harici sunucuya veri göndermez.
+Kick'te bir yayın açıkken araç çubuğundaki **Kick Quality Control** simgesine tıkla. Panelin üstündeki anahtar kalite kontrolünü açıp kapatır. **Tercih edilen kalite** alanından seçim yaptığında ayar otomatik kaydedilir.
 
-## Dosyalar ve mimari
+| Seçenek | Davranış |
+| --- | --- |
+| **En yüksek mevcut kalite** | Yayının sunduğu en yüksek çözünürlüğü seçer. Eşit çözünürlüklerde kare hızı ve bitrate dikkate alınır. |
+| **Auto (Kick karar versin)** | Kalite seçimini IVS oynatıcısının otomatik moduna bırakır. |
+| **1080p / 720p / 480p / 360p / 160p** | Önce tam eşleşen çözünürlüğü arar. Bulamazsa daha düşük en yakın seçeneğe geçer. Daha düşük seçenek de yoksa mevcut en düşük çözünürlüğü kullanır. |
+| **Eklenti kapalı** | Kaliteyi zorlamayı bırakır; kapatılırken Auto moduna dönmeyi dener. |
 
-### `manifest.json`
+**Aktif Kick sekmesi** bölümünde oynatıcının bildirdiği kaliteyi ve Auto durumunu görebilirsin. Örneğin **1080p60** ve **Auto modu: Kapalı** birlikte görünüyorsa oynatıcıda sabit kalite seçilmiştir. **Mevcut** satırı, o yayının gerçekten sunduğu kalite seçeneklerini listeler.
 
-Manifest V3. Araç çubuğunda `popup.html` açar; `storage` ve `activeTab` yetkilerini ister; iki içerik betiğini Kick sayfalarında çalıştırır.
+Yayıncı 1080p sunmuyorsa eklenti bu çözünürlüğü oluşturamaz. Ayrıca yüksek çözünürlük seçmek, yavaş veya kararsız bağlantılarda takılmasız oynatma garantisi vermez.
 
-### `popup.html` + `popup.css` + `popup.js`
+## Oynatıcıyı nasıl buldum?
 
-Kullanıcı arayüzü. `popup.js` kontrol değişince `chrome.storage.local.set({enabled,quality})` ile ayarları kaydeder. Aktif Kick sekmesinin durumunu `chrome.tabs.sendMessage` aracılığıyla sorar.
+İlk olarak Chrome DevTools üzerinden Kick'in kalite menüsünü inceledim. Menü React tarafından oluşturuluyordu; çözünürlük seçenekleri de `role="menuitemradio"` kullanan öğelerdi. Başlangıçta bu öğelerin tıklama olaylarını izledim. Fakat menüyü kodla açıp seçeneğe tıklamak güvenilir bir çözüm değildi. Menü durumu, olay sırası ve React bileşenlerinin yaşam döngüsü buna engel olabiliyordu.
 
-### `content.js` — Chrome'un ISOLATED ortamı
+Bunun üzerine arayüzü taklit etmek yerine **kalite değişimini yapan fonksiyonu** aradım. DevTools'ta olay işleyicilerini ve sayfanın derlenmiş JavaScript dosyalarını takip ederek şu çağrıya ulaştım:
 
-Chrome uzantı API'lerini kullanır (`chrome.storage`, `chrome.runtime`). Ayarları `window.postMessage` ile sayfa ortamına iletir ve popup'a oynatıcı durumunu geri döndürür.
+```js
+const player = getStore().ivsLivestreamPlayer;
+player.setQuality(quality, adaptive);
+```
 
-### `main.js` — sayfanın MAIN ortamı
+Bu noktadan sonra parçalar netleşti:
 
-Kick'in JS modüllerine erişebilmek için aynı JavaScript ortamında çalışır. Turbopack'ın dahili modül kayıt yöntemini kullanarak `159838.f` store'una ulaşmayı dener.
+1. **Kick, Amazon IVS Player kullanıyor.** İncelediğim pakette oynatıcı `create(...)` üzerinden oluşturuluyor ve IVS WebAssembly worker dosyaları tanımlanıyordu. Pakette `1.56.2` sürüm bilgisi yer alıyordu.
+2. **Aktif oynatıcı uygulamanın durum deposunda tutuluyor.** `ivsLivestreamPlayer` alanı oynatıcı nesnesini veriyor. Kick'in `setQuality` işlemi hem IVS kalitesini değiştiriyor hem de arayüzdeki `currentQuality` durumunu güncelliyor.
+3. **Store bir Turbopack modülünden dışa aktarılıyor.** İncelediğim derlemede modül kimliği `159838`, dışa aktarım adı ise `f` idi. Eklenti mevcut oynatıcı örneğine bu bağlantı üzerinden erişmeyi deniyor.
 
-Store bağlantısı başarılıysa:
+Böylece kalite menüsünü otomatik tıklatmaya gerek kalmadı. Eklenti doğrudan oynatıcının sunduğu kalite listesini okuyor ve Kick'in kendi kalite değiştirme işlemini çağırıyor.
+
+Temel akışın sadeleştirilmiş hâli:
 
 ```js
 const state = store.getState();
 const player = state.ivsLivestreamPlayer;
 const qualities = player.getQualities();
-const best = qualities.sort((a,b) => b.height - a.height)[0];
-state.setQuality(best, false);
+
+// Tercihe göre, yayının sunduğu kalite seçeneklerinden biri belirlenir.
+state.setQuality(target, false);
 ```
 
-Yukarıdaki blok **özet amaçlıdır**; asıl `main.js` kodu kalite listesine filtre, FPS ve bitrate sıralaması, geri dönüş seçimi, Auto denetimi, tekrar çağrı koruması ve yeniden yükleme kontrolleri ekler.
+Bu parça tek başına Console'a yapıştırılıp çalıştırılacak bir kod değil; eklentinin kullandığı yaklaşımı gösteriyor. Gerçek uygulamada oynatıcının hazır olması bekleniyor, reklam oynatılırken kalite zorlanmıyor ve aynı kalite için gereksiz çağrı yapılmıyor.
 
-`state.setQuality()` kullanılması, aynı zamanda Kick'in `currentQuality` store durumunun güncellenmesi içindir. Doğrudan `player.setQuality()` yalnızca yedek yöntemdir.
+**Önemli:** `159838` ve `f`, Kick'in belgelenmiş bir API'si değil; yalnızca incelediğim derlemeye ait dahili tanımlayıcılar. Kick'in yapacağı bir güncelleme bu bağlantıyı değiştirebilir.
 
-### `setQuality(quality, false)` neden `false`?
+## Teknik yapı
 
-Amazon IVS Web Player'da ikinci `adaptive` parametresi `false` olduğunda kalite değişimi mevcut tamponun boşaltılmasıyla daha hızlı uygulanır. `true` ise tamponun sonuna kadar bekleyerek daha yumuşak geçiş yapar. Kalite sabit seçilince ABR (Auto) kapanır.
+Proje **JavaScript, HTML ve CSS** ile, **Chrome Extension Manifest V3** üzerinde geliştirildi. Arayüz için React kullanılmıyor; ayrı bir derleme aşaması veya harici paket kurulumu gerekmiyor.
 
-## Teknik kaynak bulguları
+```text
+Chrome araç çubuğu / popup
+       |
+       | chrome.storage.local + chrome.tabs mesajları
+       v
+content.js          [ISOLATED world]
+       |
+       | window.postMessage
+       v
+main.js             [MAIN world]
+       |
+       v
+Kick Turbopack store
+       |
+       v
+Amazon IVS Player
+(getQualities / setQuality)
+```
 
-Yüklediğin `1qmgob0ivmvmz.js` dosyasından:
+| Dosya | Görevi |
+| --- | --- |
+| `manifest.json` | Eklentinin izinlerini, çalışacağı Kick adreslerini, popup'ı ve content script'leri tanımlar. |
+| `popup.html` | Açılır ayar panelinin yapısını oluşturur. |
+| `popup.css` | Panelin görünümünü düzenler. |
+| `popup.js` | Kullanıcı tercihlerini kaydeder, aktif Kick sekmesinin durumunu sorgular ve **Şimdi uygula** işlemini gönderir. |
+| `content.js` | Chrome eklenti API'leri ile sayfanın JavaScript ortamı arasında mesajlaşmayı sağlar. |
+| `main.js` | Kick store'una bağlanmayı dener, oynatıcının durumunu izler ve seçilen kaliteyi uygular. |
 
-- Turbopack store modülü: `159838` ve `e.s(["f",0,N],159838)`.
-- Store oluşturma: `N=(0,t.$)()((0,r.computed)(...))`.
-- Oynatıcı: `initIVSPlayer` içinde `A.create(...)`, IVS 1.56.2 ve WASM worker.
-- Kalite aksiyonu: `setQuality:(r,n)=>{let o=t().ivsLivestreamPlayer; ... o.setQuality(r,n) ... }`.
-- Oynatıcı `READY` olduğunda `getQualities()` ve kayıtlı kalite tercihinin uygulanması.
-- `QUALITY_CHANGED` olayında `currentQuality` değerinin güncellenmesi.
-- Kick arka plan oynatma optimizasyonunu `switchDelayMs:60000` ile etkinleştirmiş. Arka plandaki sekmede kalite geçici olarak düşebilir.
+`MAIN` ve `ISOLATED` ayrımı burada önemli: Chrome'un depolama ve sekme API'leri eklenti ortamında çalışırken Kick'in dahili oynatıcı nesnesi sayfa ortamında bulunuyor. `content.js`, iki ortam arasındaki iletişimi yürütüyor.
 
-## Hata ayıklama
+**Amazon IVS kütüphanesi bu depoya eklenmedi.** Oynatıcıyı Kick kendi sayfasında yüklüyor; eklenti yalnızca mevcut örneğe erişiyor. Eklentinin harici bir sunucuya izleme verisi gönderen işlevi yok. Kaydettiği tercihler, açık/kapalı durumu ile kalite seçiminden oluşuyor.
 
-Kick'te F12 > Console:
+## Sınırlar ve sorun giderme
+
+**Panelde “Bağlanıyor” yazıyor:** Kick'in oynatıcı modülü henüz yüklenmemiş olabilir. Bir yayın açıp sekmeyi yenile. Sorun bir Kick güncellemesinden sonra başladıysa Turbopack modül bağlantısı değişmiş olabilir.
+
+**Bağlandı görünüyor ama kalite bilgisi yok:** Oynatıcı henüz hazır olmayabilir, reklam oynuyor olabilir veya yayının kalite listesi henüz alınmamış olabilir.
+
+**Seçilen kalite korunmuyor:** Önce yayının gerçekten o çözünürlüğü sunduğunu kontrol et. Ayrıca Kick/IVS arka planda oynatma optimizasyonu uygulayabilir; incelediğim oynatıcı yapılandırmasında bu özellik açıktı.
+
+**Eklenti yüklü ama tepki vermiyor:** Yeni yükleme veya güncellemeden sonra açık Kick sekmelerini yenile. Aynı anda başka bir kalite kontrol eklentisinin çalışmadığından da emin ol.
+
+İstersen Kick sekmesinde DevTools Console'u açarak bağlantı durumunu inceleyebilirsin:
 
 ```js
 window.__kickQualityControlV2?.getStatus()
 ```
 
-Bağlantı varsa `connected:true`; aktif IVS oynatıcı varsa `playerReady:true` beklenir. Mevcut kalite ve Auto bilgisi de gösterilir.
+Özellikle `connected`, `playerReady`, `currentQuality`, `auto` ve `error` alanlarına bak. `connected: true` olması, tek başına yayının hazır olduğunu veya kalite değişiminin tamamlandığını göstermez.
 
-```js
-const store = window.__kickQualityControlV2?.getStore();
-const player = store?.getState()?.ivsLivestreamPlayer;
-console.log(player?.getQualities(), player?.getQuality(), player?.isAutoQualityMode());
-```
+## Notlar
 
-### Sınırlamalar
+Bu eklentiyi kendi izleme alışkanlığımdaki küçük ama sürekli tekrarlanan bir sorunu çözmek için geliştirdim. **Kick veya Amazon tarafından hazırlanmış, onaylanmış ya da desteklenen resmî bir ürün değildir.** Kick ve Amazon IVS adları ilgili hak sahiplerine aittir.
 
-- `connected:false`: Kick'in Turbopack API'si veya modül numarası değişmiş olabilir, ya da player chunk'ı henüz yüklenmemiştir. Popup kalite uygulandı iddiasında bulunmaz.
-- `playerReady:false`: Oynatıcı/kaliteler hazır değildir. Yayın sayfası açıp yenilemeyi dene.
-- Yayıncı tarafından sağlanmayan bir çözünürlük oluşturulamaz.
-- 1080p gibi yüksek sabit kalite daha fazla bant genişliği ve takılma yaratabilir.
-- Amazon IVS background optimization, sekme görünmüyorken geçici olarak kaliteyi değiştirebilir.
-- Ayarların değişmesiyle sekme anında güncellenebilir; yeni eklenti sürümü yüklendiyse mevcut Kick sekmesini **yenilemen** gerekir.
-
-## Kaynaklar
-
-- Amazon IVS Web Player SDK: https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/web-getting-started.html
-- Chrome MV3 content scripts: https://developer.chrome.com/docs/extensions/reference/manifest/content-scripts
+Çalışma yöntemi Kick'in belgelenmemiş dahili yapısına bağlı olduğu için gelecek sürümlerde uyumluluk garantisi veremem. Ekran görüntüleri mevcut arayüzü gösterir; her yayın aynı kalite seçeneklerini sunmayabilir.
