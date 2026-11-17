@@ -1,4 +1,3 @@
-/* Runs in Chrome's ISOLATED world, where chrome.storage is available. */
 (() => {
   "use strict";
   const CHANNEL = "kick-quality-control-v2";
