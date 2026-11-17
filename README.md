@@ -7,9 +7,9 @@ Eklenti, kalite menüsünü açıp seçeneklere tıklamıyor. Kick'in kullandı�
 ## Ekran görüntüleri
 
 <p align="center">
-  <img src="docs/screenshots/control-panel.png" alt="Kick Quality Control ayar paneli: 1080p60 kalitesi, kapalı Auto modu ve aktif bağlantı" width="315">
+  <img src="control-panel.png" alt="Kick Quality Control ayar paneli: 1080p60 kalitesi, kapalı Auto modu ve aktif bağlantı" width="315">
   &nbsp;&nbsp;
-  <img src="docs/screenshots/quality-options.png" alt="Kick Quality Control çözünürlük seçenekleri: En yüksek, Auto, 1080p, 720p, 480p, 360p ve 160p" width="315">
+  <img src="quality-options.png" alt="Kick Quality Control çözünürlük seçenekleri: En yüksek, Auto, 1080p, 720p, 480p, 360p ve 160p" width="315">
 </p>
 
 <p align="center"><sub>Solda oynatıcı durumu ve kontroller; sağda kalite seçimi.</sub></p>
