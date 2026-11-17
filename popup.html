@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kick Quality Control</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel">
+    <header class="header">
+      <div class="mark" aria-hidden="true">KQ</div>
+      <div>
+        <h1>Kick Quality Control</h1>
+        <p>Yayın çözünürlüğü ayarları</p>
+      </div>
+    </header>
+
+    <section class="control-row">
+      <div>
+        <label class="main-label" for="enabled">Otomatik kalite kontrolü</label>
+        <p id="enabledHelp" class="help">Yayın açılınca tercih edilen kaliteyi uygular.</p>
+      </div>
+      <label class="switch" aria-label="Eklentiyi aç veya kapat">
+        <input id="enabled" type="checkbox" role="switch" aria-describedby="enabledHelp">
+        <span class="track" aria-hidden="true"></span>
+      </label>
+    </section>
+
+    <section class="resolution">
+      <label class="main-label" for="quality">Tercih edilen kalite</label>
+      <select id="quality">
+        <option value="max">En yüksek mevcut kalite</option>
+        <option value="auto">Auto (Kick karar versin)</option>
+        <option value="1080">1080p</option>
+        <option value="720">720p</option>
+        <option value="480">480p</option>
+        <option value="360">360p</option>
+        <option value="160">160p</option>
+      </select>
+      <p class="help">Seçtiğin çözünürlük yoksa mevcut en yakın düşük kalite kullanılır.</p>
+    </section>
+
+    <section class="status-box" aria-live="polite">
+      <div class="status-heading">
+        <span class="main-label">Aktif Kick sekmesi</span>
+        <span id="connection" class="state">Kontrol ediliyor</span>
+      </div>
+      <div class="stat-row"><span>Oynatıcı kalitesi</span><strong id="current">—</strong></div>
+      <div class="stat-row"><span>Auto modu</span><strong id="auto">—</strong></div>
+      <div class="available" id="available"></div>
+      <p class="status-note" id="statusText">Kick'te bir canlı yayın aç.</p>
+    </section>
+
+    <button id="apply" class="apply" type="button">Şimdi uygula</button>
+    <p class="footer">Ayarlar otomatik kaydedilir ve tüm Kick sekmelerinde geçerlidir.</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
